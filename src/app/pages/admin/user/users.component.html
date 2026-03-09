@@ -1,0 +1,129 @@
+<h2>Users</h2>
+
+<div class="container-fluid">
+  <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal" (click)="addNew()">New</button>
+  </form>
+
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Email</th>
+          <th scope="col">Domain Name</th>
+          <th scope="col">Person Name</th>
+          <th scope="col">Is Active</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of users">
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.email }}</td>
+          <td>{{ item.domainName }}</td>
+          <td>{{ item.person.firstName }} {{ item.person.lastName }}</td>
+          <td><span class="badge rounded-pill text-bg-success" *ngIf="item.isActive; else inactiveTemp">Yes</span><ng-template #inactiveTemp><span class="badge rounded-pill text-bg-danger">No</span></ng-template></td>
+          <td>
+              <div class="d-grid gap-2 d-md-block">
+                  <button type="button" class="btn btn-outline-info" (click)="editGetUserInfo(item.id)" >Edit</button> 
+                  <button type="button" class="btn btn-outline-danger" (click)="disable(item.id)">Disable</button>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="100%">
+            <div class="d-flex align-items-center">
+
+              <!-- left side -->
+              <div class="flex-fill"></div>
+
+              <!-- center side -->
+              <nav>
+                <ul class="pagination mb-0">
+                  <li class="page-item"><button role="button" [disabled]="currentPage <= 1" [class.disabled]="currentPage <= 1" class="page-link" (click)="previosPage()">Previous</button></li>
+                  <li *ngFor="let page of totalPages" class="page-item"><button class="page-link" (click)="onPageChange(page)">{{page}}</button></li>
+                  <li class="page-item"><button role="button" [disabled]="currentPage >= totalPages.length" [class.disabled]="currentPage >= totalPages.length" class="page-link" (click)="nextPage()")>Next</button></li>
+                </ul>
+              </nav>
+
+              <!-- right side -->
+              <div class="flex-fill d-flex justify-content-end align-items-center gap-2">
+                <p class="mb-0">Total items</p> 
+                <select class="form-control w-auto" (change)="onTotalItemsChange($event)" [(ngModel)]="selectedTotalItems">
+                  <option>10</option>
+                  <option>20</option>
+                  <option>30</option>
+                  <option>40</option>
+                  <option>50</option>
+                </select>
+              </div>
+
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add new Person</h5>
+      </div>
+      <div class="modal-body">
+
+        <form (ngSubmit)="add()" name="addUsersForm" #addUsersForm="ngForm">
+          <div class="form-row">
+            <div class="col-lg-12 mb-3">
+              <label for="selPersons">Person</label>
+              <select [ngClass]="selPersons.invalid && selPersons.touched ? 'form-control is-invalid': 'form-control'" [(ngModel)]="selectedPersonId" name="selPersons" #selPersons="ngModel">
+                    <option selected>Select</option>
+                    <option *ngFor="let person of persons" [value]="person.id">{{ person.firstName }}</option>
+              </select>
+              <div *ngIf="selPersons.invalid && selPersons.touched" class="invalid-feedback">
+                Please select a person.
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-3">
+              <label for="domainName">Domain Name</label>
+              <input type="text" [ngClass]="domainName.invalid && domainName.touched ? 'form-control is-invalid': 'form-control'" name="DomainName" [(ngModel)]="user.domainName" #domainName="ngModel" required/>
+              <div *ngIf="domainName.invalid && domainName.touched" class="invalid-feedback">
+                Domain name is required.
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-3">
+              <label for="userEmail">Email</label>
+              <input type="text" [ngClass]="userEmail.invalid && userEmail.touched ? 'form-control is-invalid': 'form-control'" name="userEmail" [(ngModel)]="user.email" #userEmail="ngModel" required/>
+              <div *ngIf="userEmail.invalid && userEmail.touched" class="invalid-feedback">
+                Email is required.
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-3" *ngIf="user.id == 0">
+              <label for="password">Password</label>
+              <input type="text" [ngClass]="password.invalid && password.touched ? 'form-control is-invalid': 'form-control'" name="password" [(ngModel)]="user.password" #password="ngModel" required/>
+              <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
+                Password is required.
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="addUsersForm.invalid">Add</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+ 

@@ -1,0 +1,43 @@
+<div class="mb-3">
+  <label for="Title" class="form-label">Title</label>
+  <input type="text" class="form-control" id="Title" value="{{ taskModel.title }}" disabled="true">
+</div>
+<div class="mb-3">
+  <label for="Title" class="form-label">Status</label>
+  <input type="text" class="form-control" id="Title" value="{{ taskModel.status.description }}" disabled="true">
+</div>
+<div class="mb-3">
+  <label for="CreatedDate" class="form-label">Created</label>
+  <input type="text" class="form-control" id="CreatedDate" value="{{taskModel.createdDate | date: 'yyyy-MM-dd'}}" disabled="true">
+</div>
+<div class="mb-3">
+  <label for="Description" class="form-label">Description</label>
+  <ckeditor [editor]="editorConfig" name="Description" [data]="taskModel.description" [disabled]="true"></ckeditor>
+</div>
+
+<br>
+<button class="btn btn-success" data-toggle="modal" data-target="#addModal" (click)="cleanComentaryModel()">Add Comment</button>
+<br>
+<app-comments *ngFor="let comment of taskModel.comments"  [commentId]="comment.id"></app-comments>
+
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add new Comment</h5>
+      </div>
+      <div class="modal-body">
+
+        <form (ngSubmit)="addComment()" #addForm="ngForm">
+            <div class="mb-3">
+                <label for="CommentDescription" class="form-label">Description</label>
+                <!-- <textarea class="form-control" name="CommentDescription" id="CommentDescription" rows="8" >{{ commentModel.description }}</textarea> -->
+                <ckeditor [editor]="editorConfig" [(ngModel)]="commentModel.description" name="CommentDescription" ></ckeditor>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Add</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

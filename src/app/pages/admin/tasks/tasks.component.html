@@ -1,0 +1,108 @@
+<h2>Tasks</h2>
+<br>
+<div class="container-fluid">
+  <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">New</button>
+  </form>
+
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Project</th>
+          <th scope="col">Title</th>
+          <th scope="col">Responsable</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tasks">
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.project.name }}</td>
+          <td>{{ item.title }}</td>
+          <td *ngIf="item.taskUsers.length > 0 else notUserAssigned">{{ item.taskUsers[0].domainName }}</td><ng-template #notUserAssigned><td></td></ng-template>
+          <td>{{ item.status.description }}</td>
+          <td>
+            <button type="button" class="btn btn-outline-primary" (click)="openInfo(item.id)">Info</button>
+            <button type="button" class="btn btn-outline-danger">Disable</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="100%">
+            <div class="d-flex align-items-center">
+
+              <!-- left side -->
+              <div class="flex-fill"></div>
+
+              <!-- center side -->
+              <nav>
+                <ul class="pagination mb-0">
+                  <li class="page-item"><button role="button" [disabled]="currentPage <= 1" [class.disabled]="currentPage <= 1" class="page-link" (click)="previosPage()">Previous</button></li>
+                  <li *ngFor="let page of totalPages" class="page-item"><button class="page-link" (click)="onPageChange(page)">{{page}}</button></li>
+                  <li class="page-item"><button role="button" [disabled]="currentPage >= totalPages.length" [class.disabled]="currentPage >= totalPages.length" class="page-link" (click)="nextPage()")>Next</button></li>
+                </ul>
+              </nav>
+
+              <!-- right side -->
+              <div class="flex-fill d-flex justify-content-end align-items-center gap-2">
+                <p class="mb-0">Total items</p> 
+                <select class="form-control w-auto" (change)="onTotalItemsChange($event)" [(ngModel)]="selectedTotalItems">
+                  <option>10</option>
+                  <option>20</option>
+                  <option>30</option>
+                  <option>40</option>
+                  <option>50</option>
+                </select>
+              </div>
+
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add new Task</h5>
+      </div>
+      <div class="modal-body">
+
+        <form (ngSubmit)="add()" #addForm="ngForm">
+          <div class="mb-3">
+                <label for="DomainName" class="form-label">Responsable</label>
+                <input type="text" class="form-control" name="DomainName" [(ngModel)]="currentUser.domainName" disabled="true" />
+            </div>
+          <div class="mb-3">
+                <label for="projectId" class="form-label">Project</label>
+                <select id="projectId" name="projectId" class="form-control" [(ngModel)]="selectedProjectId">
+                  <option value="0">Select</option>
+                  <option *ngFor="let project of projectsList" value="{{ project.id }}">{{ project.name }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Title</label>
+                <input type="text" class="form-control" name="Description" [(ngModel)]="taskModel.title" />
+            </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Description</label>
+                <!-- <textarea class="form-control" name="Description" rows="8" [(ngModel)]="taskModel.description"></textarea> -->
+                <ckeditor [editor]="editorConfig" rows=8 [(ngModel)]="taskModel.description" name="Description"></ckeditor>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Add</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

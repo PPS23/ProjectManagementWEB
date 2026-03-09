@@ -1,0 +1,15 @@
+<br>
+<div class="card">
+  <div class="card-header">
+    <b>{{ commentModel.user.domainName }}</b> - {{ commentModel.createdDate | date:"yyyy-MM-dd HH:mm" }}
+  </div>
+  <div class="card-body">
+    <figure>
+      <blockquote class="blockquote">
+        <p></p>
+        <div [innerHTML]="commentModel.description">
+        </div>
+      </blockquote>
+    </figure>
+  </div>
+</div>

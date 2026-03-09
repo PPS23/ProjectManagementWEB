@@ -1,0 +1,78 @@
+/*
+.app-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    z-index: 10;
+    transition: all .2s;
+    position: fixed;
+    width: 100%;
+}
+
+.app-header .app-header__content .app-header-right{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding-left: 280px;
+    height: 60px;
+    transition: padding-left .3s cubic-bezier(.25,.46,.45,.94)!important;
+}
+
+.app-header-right {
+    display: flex;
+    align-items: center;
+    gap:.25rem;
+}
+
+*/
+
+/* HEADER FIJO */
+/* .main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+} */
+
+/* Espacio para que el contenido no quede debajo */
+/* body {
+  padding-top: 75px;
+} */
+
+/* Botones redondos de iconos */
+/* .icon-btn {
+  width: 40px;
+  height: 40px;
+  background: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+} */
+
+/* .icon-btn:hover {
+  background: #e9ecef;
+} */
+
+/* Badges tipo notificación */
+/* .badge-notify {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 10px;
+  padding: 4px 6px;
+  border-radius: 50%;
+} */
+
+/* Responsive ajustes */
+
+/* @media (max-width: 1991px) {
+  .navbar-nav {
+    padding-top: 0px;
+    min-width: 1992px;
+  }
+} */
